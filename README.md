@@ -72,7 +72,7 @@ Read this in other languages: [🇰🇷](./docs/readme/README-ko.md), [🇫🇷]
 
 - **Album Color Theme**: Applies a dynamic theme and visual effects based on the album color palette
 
-- **Ambient Mode**: Applies a lighting effect by casting gentle colors from the video, into your screen’s background
+- **Ambient Mode**: Applies a lighting effect by casting gentle colors from the video, into your screen's background
 
 - **Audio Compressor**: Apply compression to audio (lowers the volume of the loudest parts of the signal and raises the
   volume of the softest parts)
@@ -191,7 +191,7 @@ You can install the app using Homebrew (see the [cask definition](https://github
 brew install th-ch/youtube-music/youtube-music
 ```
 
-If you install the app manually and get an error "is damaged and can’t be opened." when launching the app, run the following in the Terminal:
+If you install the app manually and get an error "is damaged and can't be opened." when launching the app, run the following in the Terminal:
 
 ```bash
 /usr/bin/xattr -cr /Applications/YouTube\ Music.app
@@ -403,3 +403,5 @@ MIT © [th-ch](https://github.com/th-ch/youtube-music)
 
 If `Hide Menu` option is on - you can show the menu with the <kbd>alt</kbd> key (or <kbd>\`</kbd> [backtick] if using
 the in-app-menu plugin)
+
+- Hello from Repobird.ai!
