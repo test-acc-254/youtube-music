@@ -1,14 +1,51 @@
 import { FastAverageColor } from 'fast-average-color';
-import Color, { ColorInstance } from 'color';
+import Color, { type ColorInstance } from 'color';
 
 import style from './style.css?inline';
 
 import { createPlugin } from '@/utils';
 import { t } from '@/i18n';
+import { default as globalAppConfig } from '../../config';
 
 const COLOR_KEY = '--ytmusic-album-color';
 const DARK_COLOR_KEY = '--ytmusic-album-color-dark';
 const RATIO_KEY = '--ytmusic-album-color-ratio';
+
+const VARIABLE_MAP_DEFINITION: Record<string, string> = {
+  '--ytmusic-color-black1': '#212121',
+  '--ytmusic-color-black2': '#181818',
+  '--ytmusic-color-black3': '#030303',
+  '--ytmusic-color-black4': '#030303',
+  '--ytmusic-color-blackpure': '#000',
+  '--dark-theme-background-color': '#212121',
+  '--yt-spec-base-background': '#0f0f0f',
+  '--yt-spec-raised-background': '#212121',
+  '--yt-spec-menu-background': '#282828',
+  '--yt-spec-static-brand-black': '#212121',
+  '--yt-spec-static-overlay-background-solid': '#000',
+  '--yt-spec-static-overlay-background-heavy': 'rgba(0,0,0,0.8)',
+  '--yt-spec-static-overlay-background-medium': 'rgba(0,0,0,0.6)',
+  '--yt-spec-static-overlay-background-medium-light': 'rgba(0,0,0,0.3)',
+  '--yt-spec-static-overlay-background-light': 'rgba(0,0,0,0.1)',
+  '--yt-spec-general-background-a': '#181818',
+  '--yt-spec-general-background-b': '#0f0f0f',
+  '--yt-spec-general-background-c': '#030303',
+  '--yt-spec-snackbar-background': '#030303',
+  '--yt-spec-filled-button-text': '#030303',
+  '--yt-spec-black-1': '#282828',
+  '--yt-spec-black-2': '#1f1f1f',
+  '--yt-spec-black-3': '#161616',
+  '--yt-spec-black-4': '#0d0d0d',
+  '--yt-spec-black-pure': '#000',
+  '--yt-spec-black-pure-alpha-5': 'rgba(0,0,0,0.05)',
+  '--yt-spec-black-pure-alpha-10': 'rgba(0,0,0,0.1)',
+  '--yt-spec-black-pure-alpha-15': 'rgba(0,0,0,0.15)',
+  '--yt-spec-black-pure-alpha-30': 'rgba(0,0,0,0.3)',
+  '--yt-spec-black-pure-alpha-60': 'rgba(0,0,0,0.6)',
+  '--yt-spec-black-pure-alpha-80': 'rgba(0,0,0,0.8)',
+  '--yt-spec-black-1-alpha-98': 'rgba(40,40,40,0.98)',
+  '--yt-spec-black-1-alpha-95': 'rgba(40,40,40,0.95)',
+};
 
 export default createPlugin<
   unknown,
@@ -16,6 +53,7 @@ export default createPlugin<
   {
     color?: ColorInstance;
     darkColor?: ColorInstance;
+    variableMap: Record<string, string>;
 
     playerPage: HTMLElement | null;
     navBarBackground: HTMLElement | null;
@@ -78,8 +116,10 @@ export default createPlugin<
     sidebarBig: null,
     sidebarSmall: null,
     ytmusicAppLayout: null,
+    variableMap: {}, // Will be initialized in start
 
     async start({ getConfig }) {
+      this.variableMap = VARIABLE_MAP_DEFINITION;
       this.playerPage = document.querySelector<HTMLElement>('#player-page');
       this.navBarBackground = document.querySelector<HTMLElement>(
         '#nav-bar-background',
@@ -95,13 +135,20 @@ export default createPlugin<
       );
       this.ytmusicAppLayout = document.querySelector<HTMLElement>('#layout');
 
-      const config = await getConfig();
+      const pluginConfig = await getConfig();
       document.documentElement.style.setProperty(
         RATIO_KEY,
-        `${~~(config.ratio * 100)}%`,
+        `${~~(pluginConfig.ratio * 100)}%`,
       );
+
+      if (pluginConfig.enabled) {
+        if (globalAppConfig.plugins.isEnabled('dark-mode')) {
+          console.log('Album Color Theme enabled during start, disabling Dark Mode.');
+          globalAppConfig.plugins.disable('dark-mode');
+        }
+      }
     },
-    onPlayerApiReady(playerApi) {
+    onPlayerApiReady(playerApi, { getConfig }) {
       const fastAverageColor = new FastAverageColor();
 
       document.addEventListener('videodatachange', async (event) => {
@@ -142,17 +189,41 @@ export default createPlugin<
           document.documentElement.style.setProperty(COLOR_KEY, '0, 0, 0');
           document.documentElement.style.setProperty(DARK_COLOR_KEY, '0, 0, 0');
         }
-
-        this.updateColor();
+        
+        const currentPluginConfig = await getConfig();
+        if (currentPluginConfig.enabled) {
+          this.updateColor();
+        }
       });
     },
-    onConfigChange(config) {
+    async onConfigChange(pluginConfig) {
       document.documentElement.style.setProperty(
         RATIO_KEY,
-        `${~~(config.ratio * 100)}%`,
+        `${~~(pluginConfig.ratio * 100)}%`,
       );
+
+      if (pluginConfig.enabled) {
+        if (globalAppConfig.plugins.isEnabled('dark-mode')) {
+          console.log('Album Color Theme enabled, disabling Dark Mode.');
+          globalAppConfig.plugins.disable('dark-mode');
+        }
+        // If colors are already processed, apply the theme
+        if (this.color) {
+          this.updateColor?.();
+        }
+      } else {
+        // Cleanup when Album Color Theme is disabled
+        document.documentElement.style.removeProperty(COLOR_KEY);
+        document.documentElement.style.removeProperty(DARK_COLOR_KEY);
+        
+        for (const variable of Object.keys(this.variableMap)) {
+          document.documentElement.style.removeProperty(variable);
+        }
+        document.body.style.removeProperty('background');
+        document.documentElement.style.removeProperty('--ytmusic-background');
+      }
     },
-    getMixedColor(color: string, key: string, alpha = 1, ratioMultiply) {
+    getMixedColor(color: string, key: string, alpha = 1, ratioMultiply?: number) {
       const keyColor = `rgba(var(${key}), ${alpha})`;
 
       let colorRatio = `var(${RATIO_KEY}, 50%)`;
@@ -164,42 +235,7 @@ export default createPlugin<
       return `color-mix(in srgb, ${color} ${originalRatio}, ${keyColor} ${colorRatio})`;
     },
     updateColor() {
-      const variableMap = {
-        '--ytmusic-color-black1': '#212121',
-        '--ytmusic-color-black2': '#181818',
-        '--ytmusic-color-black3': '#030303',
-        '--ytmusic-color-black4': '#030303',
-        '--ytmusic-color-blackpure': '#000',
-        '--dark-theme-background-color': '#212121',
-        '--yt-spec-base-background': '#0f0f0f',
-        '--yt-spec-raised-background': '#212121',
-        '--yt-spec-menu-background': '#282828',
-        '--yt-spec-static-brand-black': '#212121',
-        '--yt-spec-static-overlay-background-solid': '#000',
-        '--yt-spec-static-overlay-background-heavy': 'rgba(0,0,0,0.8)',
-        '--yt-spec-static-overlay-background-medium': 'rgba(0,0,0,0.6)',
-        '--yt-spec-static-overlay-background-medium-light': 'rgba(0,0,0,0.3)',
-        '--yt-spec-static-overlay-background-light': 'rgba(0,0,0,0.1)',
-        '--yt-spec-general-background-a': '#181818',
-        '--yt-spec-general-background-b': '#0f0f0f',
-        '--yt-spec-general-background-c': '#030303',
-        '--yt-spec-snackbar-background': '#030303',
-        '--yt-spec-filled-button-text': '#030303',
-        '--yt-spec-black-1': '#282828',
-        '--yt-spec-black-2': '#1f1f1f',
-        '--yt-spec-black-3': '#161616',
-        '--yt-spec-black-4': '#0d0d0d',
-        '--yt-spec-black-pure': '#000',
-        '--yt-spec-black-pure-alpha-5': 'rgba(0,0,0,0.05)',
-        '--yt-spec-black-pure-alpha-10': 'rgba(0,0,0,0.1)',
-        '--yt-spec-black-pure-alpha-15': 'rgba(0,0,0,0.15)',
-        '--yt-spec-black-pure-alpha-30': 'rgba(0,0,0,0.3)',
-        '--yt-spec-black-pure-alpha-60': 'rgba(0,0,0,0.6)',
-        '--yt-spec-black-pure-alpha-80': 'rgba(0,0,0,0.8)',
-        '--yt-spec-black-1-alpha-98': 'rgba(40,40,40,0.98)',
-        '--yt-spec-black-1-alpha-95': 'rgba(40,40,40,0.95)',
-      };
-      Object.entries(variableMap).map(([variable, color]) => {
+      Object.entries(this.variableMap).map(([variable, color]) => {
         document.documentElement.style.setProperty(
           variable,
           this.getMixedColor(color, COLOR_KEY),
