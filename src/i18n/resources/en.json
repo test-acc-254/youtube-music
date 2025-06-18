@@ -418,6 +418,10 @@
         }
       }
     },
+    "enhanced-dark-mode": {
+      "description": "Advanced dark mode with multiple color schemes and album color integration",
+      "name": "Enhanced Dark Mode"
+    },
     "downloader": {
       "backend": {
         "dialog": {
