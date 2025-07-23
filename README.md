@@ -403,3 +403,5 @@ MIT © [th-ch](https://github.com/th-ch/youtube-music)
 
 If `Hide Menu` option is on - you can show the menu with the <kbd>alt</kbd> key (or <kbd>\`</kbd> [backtick] if using
 the in-app-menu plugin)
+
+<!-- bot added this line -->
