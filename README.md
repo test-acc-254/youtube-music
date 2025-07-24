@@ -397,6 +397,8 @@ Uses [Playwright](https://playwright.dev/) to test the app.
 
 MIT © [th-ch](https://github.com/th-ch/youtube-music)
 
+<!-- Bot added this line -->
+
 ## FAQ
 
 ### Why apps menu isn't showing up?
