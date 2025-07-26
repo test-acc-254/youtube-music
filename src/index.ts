@@ -935,3 +935,5 @@ function removeContentSecurityPolicy(
     },
   );
 }
+
+// bot added this line
