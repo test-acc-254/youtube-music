@@ -87,6 +87,8 @@ Read this in other languages: [🇰🇷](./docs/readme/README-ko.md), [🇫🇷]
 
 - **Crossfade**: Crossfade between songs
 
+- **Dark Mode**: Enables a comprehensive dark theme for the application interface. Automatically disables Album Color Theme when enabled to prevent conflicts
+
 - **Disable Autoplay**: Makes every song start in "paused" mode
 
 - **[Discord](https://discord.com/) Rich Presence**: Show your friends what you listen to
