@@ -654,6 +654,10 @@
       "description": "Allows changing the video quality with a button on the video overlay",
       "name": "Video Quality Changer"
     },
+    "quick-actions": {
+      "description": "Provides keyboard shortcuts for common actions like shuffle, repeat, like/dislike, and clear queue",
+      "name": "Quick Actions"
+    },
     "scrobbler": {
       "description": "Add scrobbling support (etc. last.fm, Listenbrainz)",
       "dialog": {
