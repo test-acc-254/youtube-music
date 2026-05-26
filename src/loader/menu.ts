@@ -5,6 +5,7 @@ import config from '@/config';
 import { setApplicationMenu } from '@/menu';
 
 import { LoggerPrefix } from '@/utils';
+import { sanitizeConfigValue } from '@/utils/validate';
 
 import { t } from '@/i18n';
 
@@ -23,7 +24,12 @@ const createContext = (
       config.get(`plugins.${id}`) ?? {},
     ) as PluginConfig,
   setConfig: (newConfig) => {
-    config.setPartial(`plugins.${id}`, newConfig, allPlugins[id].config);
+    if (!newConfig || typeof newConfig !== 'object') {
+      console.warn(LoggerPrefix, `Invalid config for plugin ${id}`);
+      return;
+    }
+    const sanitized = sanitizeConfigValue(newConfig) as PluginConfig;
+    config.setPartial(`plugins.${id}`, sanitized, allPlugins[id].config);
   },
   window: win,
   refresh: async () => {

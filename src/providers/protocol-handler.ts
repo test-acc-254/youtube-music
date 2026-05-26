@@ -4,6 +4,8 @@ import { app, BrowserWindow } from 'electron';
 
 import getSongControls from './song-controls';
 
+import { validateString } from '@/utils/validate';
+
 export const APP_PROTOCOL = 'youtubemusic';
 
 let protocolHandler:
@@ -25,8 +27,15 @@ export function setupProtocolHandler(win: BrowserWindow) {
     cmd: keyof typeof songControls,
     args: string[] | undefined = undefined,
   ) => {
+    if (!validateString(cmd, 50, /^[a-zA-Z]+$/)) {
+      console.warn(`[YTMusic] Invalid protocol command: ${cmd}`);
+      return;
+    }
     if (Object.keys(songControls).includes(cmd)) {
-      songControls[cmd](args as never);
+      const safeArgs = args?.map((arg) =>
+        typeof arg === 'string' ? arg.slice(0, 500) : arg,
+      );
+      songControls[cmd](safeArgs as never);
     }
   }) as (cmd: string) => void;
 }

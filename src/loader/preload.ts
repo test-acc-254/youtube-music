@@ -2,6 +2,7 @@ import { deepmerge } from 'deepmerge-ts';
 import { allPlugins, preloadPlugins } from 'virtual:plugins';
 
 import { LoggerPrefix, startPlugin, stopPlugin } from '@/utils';
+import { sanitizeConfigValue } from '@/utils/validate';
 
 import config from '@/config';
 
@@ -21,7 +22,12 @@ const createContext = (id: string): PreloadContext<PluginConfig> => ({
       config.get(`plugins.${id}`) ?? {},
     ) as PluginConfig,
   setConfig: (newConfig) => {
-    config.setPartial(`plugins.${id}`, newConfig, allPlugins[id].config);
+    if (!newConfig || typeof newConfig !== 'object') {
+      console.warn(LoggerPrefix, `Invalid config for plugin ${id}`);
+      return;
+    }
+    const sanitized = sanitizeConfigValue(newConfig) as PluginConfig;
+    config.setPartial(`plugins.${id}`, sanitized, allPlugins[id].config);
   },
 });
 

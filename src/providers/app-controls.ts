@@ -3,6 +3,7 @@ import path from 'node:path';
 import { app, BrowserWindow, ipcMain } from 'electron';
 
 import config from '@/config';
+import { validatePathSegment } from '@/utils/validate';
 
 export const restart = () => restartInternal();
 
@@ -12,7 +13,17 @@ export const setupAppControls = () => {
   ipcMain.on('ytmd:reload', () =>
     BrowserWindow.getFocusedWindow()?.webContents.loadURL(config.get('url')),
   );
-  ipcMain.handle('ytmd:get-path', (_, ...args: string[]) => path.join(...args));
+  ipcMain.handle('ytmd:get-path', (_, ...args: string[]) => {
+    const safeArgs = args.map((arg) => {
+      if (typeof arg !== 'string') return '';
+      if (!validatePathSegment(arg)) {
+        console.warn(`[YTMusic] Invalid path segment rejected: ${arg}`);
+        return '';
+      }
+      return arg;
+    });
+    return path.join(...safeArgs);
+  });
 };
 
 function restartInternal() {
