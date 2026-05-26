@@ -1,0 +1,20 @@
+packages:
+  - '.'
+
+allowBuilds:
+  bufferutil: true
+  unrs-resolver: true
+  utf-8-validate: true
+
+overrides:
+  vite: 6.4.2
+  node-gyp: 11.1.0
+  xml2js: 0.6.2
+  node-fetch: 3.3.2
+  '@electron/universal': 2.0.2
+  '@babel/runtime': 7.27.0
+
+patchedDependencies:
+  vudio@2.1.1: patches/vudio@2.1.1.patch
+  '@malept/flatpak-bundler@0.4.0': patches/@malept__flatpak-bundler@0.4.0.patch
+  kuromoji@0.1.2: patches/kuromoji@0.1.2.patch
