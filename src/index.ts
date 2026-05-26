@@ -53,6 +53,14 @@ import {
 } from '@/loader/main';
 
 import { LoggerPrefix } from '@/utils';
+import {
+  sanitizePluginId,
+  sanitizeConfigValue,
+  validatePluginId,
+  validateString,
+  validateNumber,
+  validateBoolean,
+} from '@/utils/validate';
 import { loadI18n, setLanguage, t } from '@/i18n';
 
 import ErrorHtmlAsset from '@assets/error.html?asset';
@@ -167,15 +175,29 @@ ipcMain.handle('ytmd:get-main-plugin-names', () => Object.keys(mainPlugins));
 const initHook = (win: BrowserWindow) => {
   ipcMain.handle(
     'ytmd:get-config',
-    (_, id: string) =>
-      deepmerge(
+    (_, id: string) => {
+      if (!validatePluginId(id)) {
+        console.warn(LoggerPrefix, `Invalid plugin id requested: ${id}`);
+        return null;
+      }
+      return deepmerge(
         allPlugins[id].config ?? { enabled: false },
         config.get(`plugins.${id}`) ?? {},
-      ) as PluginConfig,
+      ) as PluginConfig;
+    },
   );
-  ipcMain.handle('ytmd:set-config', (_, name: string, obj: object) =>
-    config.setPartial(`plugins.${name}`, obj, allPlugins[name].config),
-  );
+  ipcMain.handle('ytmd:set-config', (_, name: string, obj: object) => {
+    if (!validatePluginId(name)) {
+      console.warn(LoggerPrefix, `Invalid plugin name in set-config: ${name}`);
+      return;
+    }
+    if (!obj || typeof obj !== 'object') {
+      console.warn(LoggerPrefix, 'Invalid config object in set-config');
+      return;
+    }
+    const sanitized = sanitizeConfigValue(obj) as object;
+    config.setPartial(`plugins.${name}`, sanitized, allPlugins[name].config);
+  });
 
   config.watch((newValue, oldValue) => {
     const newPluginConfigList = (newValue?.plugins ?? {}) as Record<
@@ -737,9 +759,19 @@ app.whenReady().then(async () => {
         );
       }
 
-      const splited = decodeURIComponent(command).split(' ');
+      const decoded = decodeURIComponent(command);
+      const splited = decoded.split(' ');
+      const cmd = splited.shift()!;
 
-      handleProtocol(splited.shift()!, splited);
+      if (!validateString(cmd, 100, /^[a-zA-Z0-9_-]+$/)) {
+        console.warn(LoggerPrefix, `Invalid protocol command: ${cmd}`);
+        return;
+      }
+
+      const safeArgs = splited.map((arg) =>
+        typeof arg === 'string' ? arg.slice(0, 500) : arg,
+      );
+      handleProtocol(cmd, safeArgs);
       return;
     }
 
