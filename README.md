@@ -402,4 +402,6 @@ MIT © [th-ch](https://github.com/th-ch/youtube-music)
 ### Why apps menu isn't showing up?
 
 If `Hide Menu` option is on - you can show the menu with the <kbd>alt</kbd> key (or <kbd>\`</kbd> [backtick] if using
-the in-app-menu plugin)
+  the in-app-menu plugin)
+
+This was a disposable RepoBird worker smoke retry after the EC2 self-termination fix.
