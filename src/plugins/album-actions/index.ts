@@ -108,7 +108,7 @@ export default createPlugin<
               buttons[i].children[0].children[0] as HTMLElement
             ).style.setProperty(
               '-webkit-mask-size',
-              `100% ${100 - (count / listsLength) * 100}%`,
+              `100% ${100 - ((count / listsLength) * 100)}%`,
             );
           }
           i++;
