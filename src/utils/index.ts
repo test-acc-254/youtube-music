@@ -44,15 +44,6 @@ export const createBackend = <
   } & PluginLifecycle<Config, BackendContext<Config>, BackendProperties>,
 ) => back;
 
-export const createPreload = <
-  PreloadProperties,
-  Config extends PluginConfig = PluginConfig,
->(
-  preload: {
-    [Key in keyof PreloadProperties]: PreloadProperties[Key];
-  } & PluginLifecycle<Config, PreloadContext<Config>, PreloadProperties>,
-) => preload;
-
 export const createRenderer = <
   RendererProperties,
   Config extends PluginConfig = PluginConfig,

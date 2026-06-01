@@ -33,7 +33,6 @@ export default createPlugin({
   backend({ ipc }) {
     const secToMilisec = (t?: number) =>
       t ? Math.round(Number(t) * 1e3) : undefined;
-    const previousStatePaused = null;
 
     const data: LumiaData = {
       origin: 'youtubemusic',
@@ -74,11 +73,7 @@ export default createPlugin({
         return;
       }
 
-      if (previousStatePaused === null) {
-        data.eventType = 'switchSong';
-      } else if (previousStatePaused !== songInfo.isPaused) {
-        data.eventType = 'playPause';
-      }
+      data.eventType = 'switchSong';
 
       data.duration = secToMilisec(songInfo.songDuration);
       data.progress = secToMilisec(songInfo.elapsedSeconds);
