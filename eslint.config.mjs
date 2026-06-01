@@ -12,7 +12,7 @@ export default tsEslint.config(
   tsEslint.configs.eslintRecommended,
   ...tsEslint.configs.recommendedTypeChecked,
   prettier,
-  { ignores: ['dist', 'node_modules', '*.config.*js', '*.test.*js'] },
+  { ignores: ['dist', 'node_modules', '.repobird-sandbox', '**/*.test.*js', '**/*.spec.*js', '**/*.config.*js', 'src/plugins/adblocker/injectors/inject.js'] },
   {
     plugins: {
       stylistic,
