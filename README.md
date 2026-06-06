@@ -14,227 +14,163 @@
 
 ![Screenshot](web/screenshot.png "Screenshot")
 
-
 <div align="center">
-	<a href="https://github.com/th-ch/youtube-music/releases/latest">
-		<img src="web/youtube-music.svg" width="400" height="100" alt="YouTube Music SVG">
-	</a>
+  <a href="https://github.com/th-ch/youtube-music/releases/latest">
+    <img src="web/youtube-music.svg" width="400" height="100" alt="YouTube Music SVG">
+  </a>
 </div>
 
-Read this in other languages: [🇰🇷](./docs/readme/README-ko.md), [🇫🇷](./docs/readme/README-fr.md), [🇮🇸](./docs/readme/README-is.md), [🇨🇱 🇪🇸](./docs/readme/README-es.md), [🇷🇺](./docs/readme/README-ru.md), [🇭🇺](./docs/readme/README-hu.md)
+Read this in other languages: [한국어](./docs/readme/README-ko.md), [Français](./docs/readme/README-fr.md), [Íslenska](./docs/readme/README-is.md), [Español](./docs/readme/README-es.md), [Русский](./docs/readme/README-ru.md), [Magyar](./docs/readme/README-hu.md)
 
-**Electron wrapper around YouTube Music featuring:**
+---
 
-- Native look & feel, aims at keeping the original interface
-- Framework for custom plugins: change YouTube Music to your needs (style, content, features), enable/disable plugins in
-  one click
+## Table of Contents
 
-## Demo Image
-
-|                          Player Screen (album color theme & ambient light)                                |
-|:---------------------------------------------------------------------------------------------------------:|
-|![Screenshot1](https://github.com/th-ch/youtube-music/assets/16558115/53efdf73-b8fa-4d7b-a235-b96b91ea77fc)|
-
-## Content
-
+- [Project Overview](#project-overview)
 - [Features](#features)
-- [Available plugins](#available-plugins)
+- [Available Plugins](#available-plugins)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Development](#development)
+- [Building](#building)
+- [Testing](#testing)
 - [Translation](#translation)
-- [Download](#download)
-  - [Arch Linux](#arch-linux)
-  - [MacOS](#macos)
-  - [Windows](#windows)
-    - [How to install without a network connection? (in Windows)](#how-to-install-without-a-network-connection-in-windows)
-- [Themes](#themes)
-- [Dev](#dev)
-- [Build your own plugins](#build-your-own-plugins)
-  - [Creating a plugin](#creating-a-plugin)
-  - [Common use cases](#common-use-cases)
-- [Build](#build)
-- [Production Preview](#production-preview)
-- [Tests](#tests)
+- [Contributing](#contributing)
 - [License](#license)
-- [FAQ](#faq)
 
-## Features:
+## Project Overview
 
-- **Auto confirm when paused** (Always Enabled): disable
-  the ["Continue Watching?"](https://user-images.githubusercontent.com/61631665/129977894-01c60740-7ec6-4bf0-9a2c-25da24491b0e.png)
-  popup that pause music after a certain time
+**YouTube Music** is an Electron wrapper around [YouTube Music](https://music.youtube.com/) that provides a native desktop experience with an extensive plugin framework. It preserves the original web interface while adding powerful customization, quality-of-life improvements, and integrations.
 
- - And more ...
+### Tech Stack
 
-## Available plugins:
+| Layer | Technology |
+|-------|-----------|
+| Desktop Shell | [Electron](https://www.electronjs.org/) 35 |
+| Build System | [electron-vite](https://electron-vite.org/) / [Vite](https://vitejs.dev/) 6 |
+| Frontend Framework | [SolidJS](https://www.solidjs.com/) |
+| Language | [TypeScript](https://www.typescriptlang.org/) 5.8 |
+| Package Manager | [pnpm](https://pnpm.io/) (v10+) |
+| Testing | [Playwright](https://playwright.dev/) |
+| Linting | [ESLint](https://eslint.org/) 9 + [Prettier](https://prettier.io/) |
+| Distribution | [electron-builder](https://www.electron.build/) |
 
-- **Ad Blocker**: Block all ads and tracking out of the box
+### Key Features
 
-- **Album Actions**: Adds Undislike, Dislike, Like, and Unlike buttons to apply this to all songs in a playlist or album
+- **Native look & feel** - Retains the original YouTube Music interface while adding desktop-native window controls, taskbar integration, and system tray support
+- **Plugin framework** - Modular plugin system with backend (main process), preload, and renderer hooks. Enable/disable plugins in one click
+- **Cross-platform** - Windows (x64, ia32, arm64), macOS (x64, arm64), Linux (x64, arm64, armv7l) via AppImage, deb, rpm, flatpak, snap
+- **Built-in ad blocking** - Powered by Ghostery's adblocker engine
+- **Remote control API** - HTTP API server for external control (playback, queue, volume, etc.)
+- **Auto-updates** - Seamless updates via electron-updater
 
-- **Album Color Theme**: Applies a dynamic theme and visual effects based on the album color palette
+## Features
 
-- **Ambient Mode**: Applies a lighting effect by casting gentle colors from the video, into your screen’s background
+- **Auto-confirm when paused** (always enabled): Disables the "Continue Watching?" popup that pauses music after inactivity
 
-- **Audio Compressor**: Apply compression to audio (lowers the volume of the loudest parts of the signal and raises the
-  volume of the softest parts)
+## Available Plugins
 
-- **Blur Navigation Bar**: makes navigation bar transparent and blurry
+YouTube Music ships with **35+ plugins** covering audio, visuals, integrations, and quality-of-life improvements:
 
-- **Bypass Age Restrictions**: bypass YouTube's age verification
+| Plugin | Description |
+|--------|-------------|
+| **Ad Blocker** | Block all ads and tracking out of the box |
+| **Album Actions** | Bulk like/dislike/undislike songs in playlists/albums |
+| **Album Color Theme** | Dynamic theme based on album art palette |
+| **Ambient Mode** | Gentle color cast from video into screen background |
+| **Audio Compressor** | Dynamic range compression (loudness normalization) |
+| **Blur Navigation Bar** | Transparent and blurry navigation bar |
+| **Bypass Age Restrictions** | Bypass YouTube age verification |
+| **Captions Selector** | Enable and select captions |
+| **Compact Sidebar** | Always keep sidebar in compact mode |
+| **Crossfade** | Crossfade between songs |
+| **Disable Autoplay** | Start every song in "paused" mode |
+| **Discord Rich Presence** | Show currently playing song on Discord |
+| **Downloader** | Download MP3 directly from the interface (youtube-dl) |
+| **Equalizer** | Boost/cut specific frequency ranges (e.g., bass booster) with presets |
+| **Exponential Volume** | Exponential volume slider for finer low-volume control |
+| **In-App Menu** | Custom dark-styled menu bar |
+| **Lumia Stream** | [Lumia Stream](https://lumiastream.com/) integration |
+| **Lyrics Genius** | Lyrics support for most songs |
+| **Music Together** | Shared playlist listening with others |
+| **Navigation** | Back/Next navigation arrows integrated in the interface |
+| **No Google Login** | Remove Google login buttons and links |
+| **Notifications** | Desktop notifications on song change (interactive on Windows) |
+| **Picture-in-Picture** | PiP mode for the video player |
+| **Playback Speed** | Slider to control song playback speed |
+| **Precise Volume** | Mousewheel/hotkey volume control with custom HUD |
+| **Scrobbler** | Scrobble to [Last.fm](https://www.last.fm/) and [ListenBrainz](https://listenbrainz.org/) |
+| **Shortcuts (& MPRIS)** | Global hotkeys, media key override, Ctrl+F search, Linux MPRIS support |
+| **Skip Disliked Song** | Automatically skip disliked songs |
+| **Skip Silences** | Automatically skip silenced sections in tracks |
+| **SponsorBlock** | Skip non-music segments (intro, outro, etc.) |
+| **Synced Lyrics** | Synced lyrics from [LRClib](https://lrclib.net) and other sources |
+| **Taskbar Media Control** | Windows taskbar media playback controls |
+| **TouchBar** | Custom macOS Touch Bar layout |
+| **Tuna OBS** | [OBS](https://obsproject.com/) integration via [Tuna](https://obsproject.com/forum/resources/tuna.843/) plugin |
+| **Unobtrusive Player** | Minimal player UI that stays out of the way |
+| **Video Quality Changer** | Change video quality from the video overlay |
+| **Video Toggle** | Switch between video/song mode; optionally remove the video tab |
+| **Visualizer** | Music visualizers (powered by butterchurn) |
 
-- **Captions Selector**: Enable captions
+## Installation
 
-- **Compact Sidebar**: Always set the sidebar in compact mode
+### Prerequisites
 
-- **Crossfade**: Crossfade between songs
+- **Node.js** >= 18
+- **pnpm** >= 10 ([install guide](https://pnpm.io/installation))
 
-- **Disable Autoplay**: Makes every song start in "paused" mode
+### Prebuilt Binaries
 
-- **[Discord](https://discord.com/) Rich Presence**: Show your friends what you listen to
-  with [Rich Presence](https://user-images.githubusercontent.com/28219076/104362104-a7a0b980-5513-11eb-9744-bb89eabe0016.png)
+Download the latest release from the [releases page](https://github.com/th-ch/youtube-music/releases/latest).
 
-- **Downloader**: downloads
-  MP3 [directly from the interface](https://user-images.githubusercontent.com/61631665/129977677-83a7d067-c192-45e1-98ae-b5a4927393be.png) [(youtube-dl)](https://github.com/ytdl-org/youtube-dl)
+#### Arch Linux
 
-- **Equalizer**: add filters to boost or cut specific range of frequencies (e.g. bass booster)
+```bash
+# AUR package
+yay -S youtube-music-bin
+# or
+paru -S youtube-music-bin
+```
 
-- **Exponential Volume**: Makes the volume
-  slider [exponential](https://greasyfork.org/en/scripts/397686-youtube-music-fix-volume-ratio/) so it's easier to
-  select lower volumes
-
-- **In-App Menu**: [gives bars a fancy, dark look](https://user-images.githubusercontent.com/78568641/112215894-923dbf00-8c29-11eb-95c3-3ce15db27eca.png)
-
-  > (see [this post](https://github.com/th-ch/youtube-music/issues/410#issuecomment-952060709) if you have problem
-  accessing the menu after enabling this plugin and hide-menu option)
-
-- **Scrobbler**: Adds scrobbling support for [Last.fm](https://www.last.fm/) and [ListenBrainz](https://listenbrainz.org/)
-
-- **Lumia Stream**: Adds [Lumia Stream](https://lumiastream.com/) support
-
-- **Lyrics Genius**: Adds lyrics support for most songs
-
-- **Music Together**: Share a playlist with others. When the host plays a song, everyone else will hear the same song
-
-- **Navigation**: Next/Back navigation arrows directly integrated in the interface, like in your favorite browser
-
-- **No Google Login**: Remove Google login buttons and links from the interface
-
-- **Notifications**: Display a notification when a song starts
-  playing ([interactive notifications](https://user-images.githubusercontent.com/78568641/114102651-63ce0e00-98d0-11eb-9dfe-c5a02bb54f9c.png)
-  are available on windows)
-
-- **Picture-in-picture**: allows to switch the app to picture-in-picture mode
-
-- **Playback Speed**: Listen fast, listen
-  slow! [Adds a slider that controls song speed](https://user-images.githubusercontent.com/61631665/129976003-e55db5ba-bf42-448c-a059-26a009775e68.png)
-
-- **Precise Volume**: Control the volume precisely using mousewheel/hotkeys, with a custom hud and customizable volume
-  steps
-
-- **Shortcuts (& MPRIS)**: Allows setting global hotkeys for playback (play/pause/next/previous) +
-  disable [media osd](https://user-images.githubusercontent.com/84923831/128601225-afa38c1f-dea8-4209-9f72-0f84c1dd8b54.png)
-  by overriding media keys + enable Ctrl/CMD + F to search + enable linux mpris support for
-  mediakeys + [custom hotkeys](https://github.com/Araxeus/youtube-music/blob/1e591d6a3df98449bcda6e63baab249b28026148/providers/song-controls.js#L13-L50)
-  for [advanced users](https://github.com/th-ch/youtube-music/issues/106#issuecomment-952156902)
-
-- **Skip Disliked Song**: Skips disliked songs
-
-- **Skip Silences**: Automatically skip silenced sections
-
-- [**SponsorBlock**](https://github.com/ajayyy/SponsorBlock): Automatically Skips non-music parts like intro/outro or
-  parts of music videos where the song isn't playing
-
-- **Synced Lyrics**: Provides synced lyrics to songs, using providers like [LRClib](https://lrclib.net).
-
-- **Taskbar Media Control**: Control playback from
-  your [Windows taskbar](https://user-images.githubusercontent.com/78568641/111916130-24a35e80-8a82-11eb-80c8-5021c1aa27f4.png)
-
-- **TouchBar**: Custom TouchBar layout for macOS
-
-- **Tuna OBS**: Integration with [OBS](https://obsproject.com/)'s
-  plugin [Tuna](https://obsproject.com/forum/resources/tuna.843/)
-
-- **Video Quality Changer**: Allows changing the video quality with
-  a [button](https://user-images.githubusercontent.com/78568641/138574366-70324a5e-2d64-4f6a-acdd-dc2a2b9cecc5.png) on
-  the video overlay
-
-- **Video Toggle**: Adds
-  a [button](https://user-images.githubusercontent.com/28893833/173663950-63e6610e-a532-49b7-9afa-54cb57ddfc15.png) to
-  switch between Video/Song mode. can also optionally remove the whole video tab
-
-- **Visualizer**: Different music visualizers
-
-
-## Translation
-
-You can help with translation on [Hosted Weblate](https://hosted.weblate.org/projects/youtube-music/).
-
-<a href="https://hosted.weblate.org/engage/youtube-music/">
-  <img src="https://hosted.weblate.org/widget/youtube-music/i18n/multi-auto.svg" alt="translation status" />
-  <img src="https://hosted.weblate.org/widget/youtube-music/i18n/287x66-black.png" alt="translation status 2" />
-</a>
-
-## Download
-
-You can check out the [latest release](https://github.com/th-ch/youtube-music/releases/latest) to quickly find the
-latest version.
-
-### Arch Linux
-
-Install the [`youtube-music-bin`](https://aur.archlinux.org/packages/youtube-music-bin) package from the AUR. For AUR installation instructions, take a look at
-this [wiki page](https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_packages).
-
-### macOS
-
-You can install the app using Homebrew (see the [cask definition](https://github.com/th-ch/homebrew-youtube-music)):
+#### macOS
 
 ```bash
 brew install th-ch/youtube-music/youtube-music
 ```
 
-If you install the app manually and get an error "is damaged and can’t be opened." when launching the app, run the following in the Terminal:
+If you see "is damaged and can't be opened" when launching:
 
 ```bash
 /usr/bin/xattr -cr /Applications/YouTube\ Music.app
 ```
 
-### Windows
-
-You can use the [Scoop package manager](https://scoop.sh) to install the `youtube-music` package from
-the [`extras` bucket](https://github.com/ScoopInstaller/Extras).
+#### Windows
 
 ```bash
+# Scoop
 scoop bucket add extras
 scoop install extras/youtube-music
-```
 
-Alternately you can use [Winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/), Windows 11s
-official CLI package manager to install the `th-ch.YouTubeMusic` package.
-
-*Note: Microsoft Defender SmartScreen might block the installation since it is from an "unknown publisher". This is also
-true for the manual installation when trying to run the executable(.exe) after a manual download here on github (same
-file).*
-
-```bash
+# Winget
 winget install th-ch.YouTubeMusic
 ```
 
-#### How to install without a network connection? (in Windows)
+> **Note**: Microsoft Defender SmartScreen may block the installer since it's from an "unknown publisher."
 
-- Download the `*.nsis.7z` file for _your device architecture_ in [release page](https://github.com/th-ch/youtube-music/releases/latest).
-  - `x64` for 64-bit Windows
-  - `ia32` for 32-bit Windows
-  - `arm64` for ARM64 Windows
-- Download installer in release page. (`*-Setup.exe`)
-- Place them in the **same directory**.
-- Run the installer.
+#### Offline Install (Windows)
 
-## Themes
+1. Download the `*.nsis.7z` file for your architecture (`x64`, `ia32`, or `arm64`) from the [releases page](https://github.com/th-ch/youtube-music/releases/latest)
+2. Download the `*-Setup.exe` installer
+3. Place both files in the **same directory**
+4. Run the installer
 
-You can load CSS files to change the look of the application (Options > Visual Tweaks > Themes).
+### Themes
 
-Some predefined themes are available in https://github.com/kerichdev/themes-for-ytmdesktop-player.
+You can load custom CSS themes via **Options > Visual Tweaks > Themes**. Predefined themes are available at [kerichdev/themes-for-ytmdesktop-player](https://github.com/kerichdev/themes-for-ytmdesktop-player).
 
-## Dev
+### From Source
 
 ```bash
 git clone https://github.com/th-ch/youtube-music
@@ -243,68 +179,230 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-## Build your own plugins
+### Environment Variables
 
-Using plugins, you can:
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NODE_ENV` | Environment mode (`development`, `production`, `test`) | - |
+| `ELECTRON_ENABLE_LOGGING` | Enable Electron logging | - |
 
-- manipulate the app - the `BrowserWindow` from electron is passed to the plugin handler
-- change the front by manipulating the HTML/CSS
+## Usage
 
-### Creating a plugin
+### Running the App
 
-Create a folder in `src/plugins/YOUR-PLUGIN-NAME`:
+```bash
+# Development mode (hot reload)
+pnpm dev
 
-- `index.ts`: the main file of the plugin
+# Production preview
+pnpm start
+```
+
+### First Launch
+
+The app loads `https://music.youtube.com` in an Electron window. Sign in with your Google account to access your library and playlists. Plugins can be configured via the app menu.
+
+### API Server (Remote Control)
+
+The **API Server** plugin provides an HTTP REST API for external remote control of the player.
+
+**Enable it**: Options > Plugins > API Server
+
+**Base URL**: `http://localhost:9863`
+
+**Endpoints**:
+
+| Method | Path | Description |
+|--------|------|-------------|
+| `GET` | `/api/player` | Get current player state (song, position, volume) |
+| `POST` | `/api/player/play` | Start/resume playback |
+| `POST` | `/api/player/pause` | Pause playback |
+| `POST` | `/api/player/next` | Skip to next track |
+| `POST` | `/api/player/previous` | Go to previous track |
+| `POST` | `/api/player/seek` | Seek to position (seconds) |
+| `GET` | `/api/player/volume` | Get current volume |
+| `POST` | `/api/player/volume` | Set volume |
+| `GET` | `/api/player/shuffle` | Get shuffle state |
+| `POST` | `/api/player/shuffle` | Toggle shuffle |
+| `GET` | `/api/player/repeat` | Get repeat mode |
+| `POST` | `/api/player/repeat` | Set repeat mode |
+| `GET` | `/api/queue` | Get current queue |
+| `POST` | `/api/queue/add` | Add song to queue |
+
+Full API documentation is available at `http://localhost:9863/swagger` when the plugin is enabled.
+
+## Configuration
+
+Settings are stored in an `electron-store` JSON file and can be modified through the app's options menu.
+
+### App Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `tray` | boolean | `false` | Minimize to system tray |
+| `autoUpdates` | boolean | `true` | Enable automatic updates |
+| `alwaysOnTop` | boolean | `false` | Keep window on top |
+| `hideMenu` | boolean | `false` | Hide the menu bar |
+| `startAtLogin` | boolean | `false` | Launch on system startup |
+| `disableHardwareAcceleration` | boolean | `false` | Disable GPU acceleration |
+| `removeUpgradeButton` | boolean | `false` | Remove "Upgrade to Premium" button |
+| `restartOnConfigChanges` | boolean | `false` | Restart when config changes |
+| `trayClickPlayPause` | boolean | `false` | Tray click toggles play/pause |
+| `autoResetAppCache` | boolean | `false` | Reset app cache on startup |
+| `resumeOnStart` | boolean | `true` | Resume playback from last position |
+| `proxy` | string | `''` | HTTP proxy URL |
+| `startingPage` | string | `''` | Custom starting page |
+| `themes` | string[] | `[]` | Paths to CSS theme files |
+| `language` | string | - | UI language override |
+
+### Plugin Configuration
+
+Each plugin can have its own configuration, accessible via **Options > Plugins**. Plugin settings are stored in the `plugins` key of the config file.
+
+## Development
+
+### Project Structure
+
+```
+youtube-music/
+├── assets/              # Icons, images, error page
+├── docs/                # Documentation and readme translations
+├── patches/             # pnpm patch files for dependencies
+├── src/
+│   ├── config/          # App configuration (defaults, store, schema)
+│   ├── i18n/            # Internationalization files
+│   ├── loader/          # Plugin loading system (main, preload, renderer)
+│   ├── plugins/         # All built-in plugins (40+ directories)
+│   │   ├── adblocker/
+│   │   ├── api-server/  # HTTP REST API
+│   │   ├── discord/
+│   │   ├── downloader/
+│   │   ├── sponsorblock/
+│   │   └── ...
+│   ├── providers/       # Song info, controls, DOM extraction
+│   ├── types/           # TypeScript type definitions
+│   ├── utils/           # Shared utilities
+│   ├── index.ts         # Main process entry
+│   ├── menu.ts          # Application menu
+│   ├── preload.ts       # Preload script
+│   ├── renderer.ts      # Renderer process entry
+│   └── tray.ts          # System tray
+├── tests/               # Playwright e2e tests
+├── vite-plugins/        # Custom Vite plugins (plugin loader, i18n)
+├── web/                 # Web assets (SVG logos, screenshots)
+├── electron.vite.config.mts
+├── eslint.config.mjs
+├── tsconfig.json
+└── package.json
+```
+
+### Development Workflow
+
+```bash
+# Clone and install
+git clone https://github.com/th-ch/youtube-music
+cd youtube-music
+pnpm install --frozen-lockfile
+
+# Start development (hot reload with watch mode)
+pnpm dev
+
+# Debug mode (with Electron logging)
+pnpm dev:debug
+
+# Renderer-only development (no backend reload)
+pnpm dev:renderer
+
+# Type checking
+pnpm typecheck
+
+# Linting
+pnpm lint
+```
+
+### Code Style
+
+The project uses:
+- **ESLint 9** with flat config for linting
+- **TypeScript strict mode** with `strict: true`, `noImplicitAny: true`
+- **Prettier** for formatting (single quotes, 2-space indentation, trailing commas)
+- **Import ordering**: builtin > external > internal/sibling/parent > parent > type (with blank lines between groups)
+- **ESLint rules**: camelCase enforcement, no floating promises (warn), `@/` path alias for `./src/`
+
+Run linting before committing:
+
+```bash
+pnpm lint
+```
+
+### Building Your Own Plugins
+
+Plugins can manipulate the Electron `BrowserWindow`, inject CSS/HTML, and communicate between main and renderer processes.
+
+#### Plugin Anatomy
+
+Create a folder in `src/plugins/<plugin-name>` with:
+
+```
+src/plugins/my-plugin/
+├── index.ts        # Main plugin definition
+├── style.css       # (optional) Custom styles
+└── ...             # (optional) Additional files
+```
+
+#### Minimal Plugin Example
+
 ```typescript
-import style from './style.css?inline'; // import style as inline
-
+import style from './style.css?inline';
 import { createPlugin } from '@/utils';
 
 export default createPlugin({
-  name: 'Plugin Label',
-  restartNeeded: true, // if value is true, ytmusic show restart dialog
-  config: {
-    enabled: false,
-  }, // your custom config
-  stylesheets: [style], // your custom style,
+  name: 'My Plugin',
+  restartNeeded: true,
+  config: { enabled: false },
+  stylesheets: [style],
+  renderer() {
+    // Runs in the renderer process
+    console.log('My plugin started!');
+  },
+});
+```
+
+#### Full Plugin with Backend/Preload
+
+```typescript
+import { createPlugin } from '@/utils';
+
+export default createPlugin({
+  name: 'Advanced Plugin',
+  restartNeeded: true,
+  config: { enabled: true, value: 1 },
   menu: async ({ getConfig, setConfig }) => {
-    // All *Config methods are wrapped Promise<T>
     const config = await getConfig();
-    return [
-      {
-        label: 'menu',
-        submenu: [1, 2, 3].map((value) => ({
-          label: `value ${value}`,
-          type: 'radio',
-          checked: config.value === value,
-          click() {
-            setConfig({ value });
-          },
-        })),
-      },
-    ];
+    return [{
+      label: 'Settings',
+      submenu: [1, 2, 3].map((value) => ({
+        label: `Value ${value}`,
+        type: 'radio',
+        checked: config.value === value,
+        click() { setConfig({ value }); },
+      })),
+    }];
   },
   backend: {
     start({ window, ipc }) {
       window.maximize();
-
-      // you can communicate with renderer plugin
-      ipc.handle('some-event', () => {
-        return 'hello';
-      });
+      ipc.handle('my-event', () => 'hello from main');
     },
-    // it fired when config changed
     onConfigChange(newConfig) { /* ... */ },
-    // it fired when plugin disabled
     stop(context) { /* ... */ },
   },
   renderer: {
     async start(context) {
-      console.log(await context.ipc.invoke('some-event'));
+      const msg = await context.ipc.invoke('my-event');
+      console.log(msg);
     },
-    // Only renderer available hook
-    onPlayerApiReady(api: YoutubePlayer, context: RendererContext) {
-      // set plugin config easily
+    onPlayerApiReady(api, context) {
       context.setConfig({ myConfig: api.getVolume() });
     },
     onConfigChange(newConfig) { /* ... */ },
@@ -314,92 +412,140 @@ export default createPlugin({
     async start({ getConfig }) {
       const config = await getConfig();
     },
-    onConfigChange(newConfig) {},
-    stop(_context) {},
+    onConfigChange(newConfig) { /* ... */ },
+    stop(_context) { /* ... */ },
   },
 });
 ```
 
-### Common use cases
+#### Common Use Cases
 
-- injecting custom CSS: create a `style.css` file in the same folder then:
-
+**Inject Custom CSS**:
 ```typescript
-// index.ts
-import style from './style.css?inline'; // import style as inline
-
+import style from './style.css?inline';
 import { createPlugin } from '@/utils';
 
 export default createPlugin({
-  name: 'Plugin Label',
-  restartNeeded: true, // if value is true, ytmusic will show a restart dialog
-  config: {
-    enabled: false,
-  }, // your custom config
-  stylesheets: [style], // your custom style
-  renderer() {} // define renderer hook
+  name: 'Custom Style',
+  restartNeeded: true,
+  config: { enabled: false },
+  stylesheets: [style],
+  renderer() {},
 });
 ```
 
-- If you want to change the HTML:
-
+**Modify HTML**:
 ```typescript
 import { createPlugin } from '@/utils';
 
 export default createPlugin({
-  name: 'Plugin Label',
-  restartNeeded: true, // if value is true, ytmusic will show the restart dialog
-  config: {
-    enabled: false,
-  }, // your custom config
+  name: 'Hide Login',
+  restartNeeded: true,
+  config: { enabled: false },
   renderer() {
-    // Remove the login button
-    document.querySelector(".sign-in-link.ytmusic-nav-bar").remove();
-  } // define renderer hook
+    document.querySelector('.sign-in-link.ytmusic-nav-bar')?.remove();
+  },
 });
 ```
 
-- communicating between the front and back: can be done using the ipcMain module from electron. See `index.ts` file and
-  example in `sponsorblock` plugin.
+## Building
 
-## Build
-
-1. Clone the repo
-2. Follow [this guide](https://pnpm.io/installation) to install `pnpm`
-3. Run `pnpm install --frozen-lockfile` to install dependencies
-4. Run `pnpm build:OS`
-
-- `pnpm dist:win` - Windows
-- `pnpm dist:linux` - Linux (amd64)
-- `pnpm dist:linux:deb-arm64` - Linux (arm64 for Debian)
-- `pnpm dist:linux:rpm-arm64` - Linux (arm64 for Fedora)
-- `pnpm dist:mac` - macOS (amd64)
-- `pnpm dist:mac:arm64` - macOS (arm64)
-
-Builds the app for macOS, Linux, and Windows,
-using [electron-builder](https://github.com/electron-userland/electron-builder).
-
-## Production Preview
+### Production Build
 
 ```bash
+# Build all platforms
+pnpm dist
+
+# Platform-specific builds
+pnpm dist:win              # Windows (x64, ia32, arm64)
+pnpm dist:linux            # Linux (amd64)
+pnpm dist:linux:deb-arm64  # Linux (arm64, Debian)
+pnpm dist:linux:rpm-arm64  # Linux (arm64, Fedora)
+pnpm dist:mac              # macOS (amd64)
+pnpm dist:mac:arm64        # macOS (arm64)
+
+# Production preview (no packaging)
 pnpm start
 ```
 
-## Tests
+Builds are produced using [electron-builder](https://github.com/electron-user-builder/electron-builder).
+
+### Release Builds
 
 ```bash
-pnpm test
+pnpm release:linux
+pnpm release:mac
+pnpm release:win
 ```
 
-Uses [Playwright](https://playwright.dev/) to test the app.
+## Testing
+
+Tests use [Playwright](https://playwright.dev/) for end-to-end testing of the Electron app.
+
+```bash
+# Run all tests
+pnpm test
+
+# Debug mode
+pnpm test:debug
+```
+
+The test suite launches the app, verifies it loads `https://music.youtube.com`, and handles the consent form.
+
+## Translation
+
+Help translate YouTube Music into your language on [Hosted Weblate](https://hosted.weblate.org/projects/youtube-music/).
+
+<a href="https://hosted.weblate.org/engage/youtube-music/">
+  <img src="https://hosted.weblate.org/widget/youtube-music/i18n/multi-auto.svg" alt="Translation status" />
+  <img src="https://hosted.weblate.org/widget/youtube-music/i18n/287x66-black.png" alt="Translation status" />
+</a>
+
+## Contributing
+
+We welcome contributions! Here's how to get started:
+
+### Reporting Issues
+
+- **Bug reports**: Open an issue using the [bug report template](.github/ISSUE_TEMPLATE/bug_report.yml). Include your OS, app version, steps to reproduce, and expected behavior.
+- **Feature requests**: Use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.yml). Describe the feature and the problem it solves.
+
+### Submitting Changes
+
+1. **Fork** the repository
+2. **Create a branch**: `git checkout -b feature/my-feature`
+3. **Make your changes** following the project's code style
+4. **Run linting and typecheck**:
+   ```bash
+   pnpm lint
+   pnpm typecheck
+   ```
+5. **Write/update tests** if applicable
+6. **Commit** with a clear, descriptive message
+7. **Push** and open a Pull Request
+
+### Pull Request Guidelines
+
+- Keep PRs focused on a single concern
+- Reference related issues in the description
+- Ensure the build passes (CI runs `pnpm lint` and `pnpm typecheck`)
+- Follow the existing code style and conventions
+- Update documentation if adding/changing features
+
+### Code Review Process
+
+- All PRs require at least one review from a maintainer
+- Address review feedback promptly
+- Maintainers may request changes for code quality, style, or architecture
+
+## FAQ
+
+### Why isn't the app menu showing up?
+
+If **Hide Menu** is enabled, press <kbd>Alt</kbd> to show it temporarily. If using the In-App Menu plugin, press <kbd>\`</kbd> (backtick).
 
 ## License
 
 MIT © [th-ch](https://github.com/th-ch/youtube-music)
 
-## FAQ
-
-### Why apps menu isn't showing up?
-
-If `Hide Menu` option is on - you can show the menu with the <kbd>alt</kbd> key (or <kbd>\`</kbd> [backtick] if using
-the in-app-menu plugin)
+See the [license](license) file for details.
