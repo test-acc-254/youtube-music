@@ -87,6 +87,8 @@ Lisez ceci dans d'autres langues: [🏴 Anglais](../../README.md), [🇰🇷 Cor
 
 - **Fondu enchaîné** : Fondu enchaîné entre les chansons
 
+- **Mode sombre** : Active un thème sombre complet pour l'interface de l'application. Désactive automatiquement le Thème de couleur d'album lorsqu'il est activé pour éviter les conflits
+
 - **Désactiver la lecture automatique** : Fait démarrer chaque chanson en mode "pause"
 
 - **[Discord](https://discord.com/) Présence riche** : Montrez à vos amis ce que vous écoutez
