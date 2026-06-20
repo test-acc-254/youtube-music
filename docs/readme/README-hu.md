@@ -84,6 +84,8 @@ Olvasd el más nyelveken: [🏴 Angol](../../README.md), [🇰🇷 Korea](./READ
 
 - **Áttünés**: Áttünést biztosít a dalok között, ami folytonossá teszi a zenehallgatást anélkül, hogy érezhető lenne a váltás.
 
+- **Sötét mód**: Átfogó sötét témát alkalmaz az alkalmazás felületén. Bekapcsoláskor automatikusan kikapcsolja az Album színtémát az ütközések elkerülése érdekében
+
 - **Automatikus lejátszás letiltása**: Ez a funkció kikapcsolja az automatikus lejátszást, így a zenék nem indulnak el maguktól. Amikor egy album vagy egy dal lejátszása véget ér, a következő szám nem kezdődik el automatikusan. (a bővítmény használata során minden zenét manuálisan kell elindítani)
 
 - **[Discord](https://discord.com/) Rich Presence**: Mutassa meg barátainak, hogy mit hallgat a [Rich Presence](https://i.imgur.com/nCeVQB2.png) segítségével. (Ehez a Discord-on is engedélyezve kel lennie a Tevékenységállapot megosztásának [DC Beállítások -> Tevékenyég-adatvédelem -> Megoszthatod az észlelt tevékenységeidet másokkal])

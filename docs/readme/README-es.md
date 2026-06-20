@@ -86,6 +86,8 @@ Lee esto en otros idiomas: [🏴 Inglés](../../README.md), [🇰🇷 Coreano](.
 
 - **Crossfade**: Transición suave entre canciones
 
+- **Modo Oscuro**: Activa un tema oscuro completo para la interfaz de la aplicación. Al activarse, desactiva automáticamente el Tema de Color del Álbum para evitar conflictos
+
 - **Desactivar Reproducción Automática**: Hace que cada canción comience en modo "pausado"
 
 - **[Discord](https://discord.com/) Rich Presence**: Muestra a tus amigos lo que estás escuchando
