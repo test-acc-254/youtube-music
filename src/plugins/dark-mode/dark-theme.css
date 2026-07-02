@@ -1,0 +1,129 @@
+/*
+ * Dark Theme for YouTube Music Desktop App
+ */
+
+:root {
+  /* Base Background Colors */
+  --ytmusic-background: #1e1e1e; /* Primary application background */
+  --yt-spec-base-background: #121212; /* YouTube's base background, often body */
+  --yt-spec-raised-background: #2c2c2c; /* For elements like cards, dialogs, sidebars */
+  --yt-spec-menu-background: #2c2c2c; /* Background for menus and dropdowns */
+  --ytmusic-nav-bar-background: #1e1e1e; /* Navigation bar background */
+  --ytmusic-player-bar-background: #121212; /* Player bar background */
+
+  /* Text Colors */
+  --yt-spec-text-primary: #ffffff; /* Primary text color */
+  --yt-spec-text-secondary: #aaaaaa; /* Secondary text color (subtitles, descriptions) */
+  --yt-spec-text-disabled: #717171; /* Disabled text color */
+  --ytmusic-general-foreground: #ffffff; /* General foreground/text color */
+  --ytmusic-text-primary-inverted: #030303; /* For text on light backgrounds if any */
+  --yt-spec-text-primary-inverse: #030303; /* Inverse of primary text */
+
+  /* Icon Colors */
+  --yt-spec-icon-active-other: #ffffff; /* Active icons */
+  --yt-spec-icon-inactive: #aaaaaa; /* Inactive icons */
+  --yt-spec-icon-disabled: #717171; /* Disabled icons */
+
+  /* Border and Divider Colors */
+  --yt-spec-border-color: #383838;
+  --ytmusic-divider: #383838; /* Dividers within the app */
+  --yt-spec-10-percent-layer: rgba(255, 255, 255, 0.1); /* Overlay layers */
+
+  /* Accent and Action Colors */
+  --yt-spec-call-to-action: #3ea6ff; /* Primary accent color (e.g., buttons, progress bars) */
+  --yt-spec-brand-identity-alpha-40: rgba(62, 166, 255, 0.4); /* Accent with alpha */
+  --ytmusic-brand-background-solid: #3ea6ff;
+  --ytmusic-brand-text-solid: #ffffff;
+  --yt-spec-static-brand-red: #ff4747; /* YouTube red, adjust for dark theme if needed or keep for branding */
+  --yt-spec-static-brand-white: #ffffff;
+  --yt-spec-static-brand-black: #1e1e1e; /* Usually black, making it dark grey */
+
+  /* Specific Component Variables from in-app-menu */
+  --titlebar-background-color: #121212; /* Title bar for in-app-menu plugin */
+  --menu-bar-height: 32px; /* Keep as is unless theming requires change */
+
+  /* Variables from album-color-theme's variableMap (adapted for a static dark theme) */
+  /* These are generally dark colors already, ensure they fit the new palette */
+  --ytmusic-color-black1: #2c2c2c; /* Was #212121 */
+  --ytmusic-color-black2: #1e1e1e; /* Was #181818 */
+  --ytmusic-color-black3: #121212; /* Was #030303, player bar, etc. */
+  --ytmusic-color-black4: #0f0f0f; /* Was #030303, very dark areas */
+  --ytmusic-color-blackpure: #000000;
+
+  --dark-theme-background-color: #1e1e1e; /* General dark background, if used by other plugins */
+
+  /* yt-spec variables from album-color-theme */
+  /* --yt-spec-base-background: #0f0f0f; /* Already defined above, ensure consistency */
+  /* --yt-spec-raised-background: #212121; /* Already defined above */
+  /* --yt-spec-menu-background: #282828; /* Already defined above */
+  /* --yt-spec-static-brand-black: #212121; /* Already defined above */
+
+  --yt-spec-static-overlay-background-solid: rgba(0, 0, 0, 0.95); /* Darker overlay */
+  --yt-spec-static-overlay-background-heavy: rgba(0, 0, 0, 0.85);
+  --yt-spec-static-overlay-background-medium: rgba(0, 0, 0, 0.65);
+  --yt-spec-static-overlay-background-medium-light: rgba(0, 0, 0, 0.45);
+  --yt-spec-static-overlay-background-light: rgba(0, 0, 0, 0.25);
+
+  --yt-spec-general-background-a: #1e1e1e; /* Main content areas */
+  --yt-spec-general-background-b: #121212; /* Secondary background areas */
+  --yt-spec-general-background-c: #0f0f0f; /* Deep background areas */
+
+  --yt-spec-snackbar-background: #2c2c2c; /* Snackbar/toast notifications */
+  --yt-spec-filled-button-text: #ffffff; /* Text on filled buttons (assuming button bg is accent or dark) */
+  --yt-spec-filled-button-focus-background: #4a4a4a; /* Focus state for filled buttons */
+
+  /* yt-spec black shades (ensure they are distinct if used) */
+  --yt-spec-black-1: #2c2c2c;
+  --yt-spec-black-2: #252525;
+  --yt-spec-black-3: #1e1e1e;
+  --yt-spec-black-4: #121212;
+  --yt-spec-black-pure: #000000;
+
+  /* Alpha versions of black (now effectively dark grays or black) */
+  --yt-spec-black-pure-alpha-5: rgba(0, 0, 0, 0.05); /* Subtle overlays/shadows */
+  --yt-spec-black-pure-alpha-10: rgba(0, 0, 0, 0.1);
+  --yt-spec-black-pure-alpha-15: rgba(0, 0, 0, 0.15);
+  --yt-spec-black-pure-alpha-30: rgba(0, 0, 0, 0.3);
+  --yt-spec-black-pure-alpha-60: rgba(0, 0, 0, 0.6);
+  --yt-spec-black-pure-alpha-80: rgba(0, 0, 0, 0.8);
+
+  --yt-spec-black-1-alpha-98: rgba(44, 44, 44, 0.98); /* From #2c2c2c base */
+  --yt-spec-black-1-alpha-95: rgba(44, 44, 44, 0.95);
+
+  /* Additional common variables */
+  --ytmusic-search-background: #2c2c2c;
+  --ytmusic-search-border: #383838;
+  --ytmusic-active-tab-indicator: #3ea6ff;
+  --ytmusic-focused-item: rgba(62, 166, 255, 0.2); /* Focus ring/highlight */
+  --ytmusic-hover-background: rgba(255, 255, 255, 0.05); /* Subtle hover for list items etc. */
+
+  /* Scrollbar Colors */
+  --ytmusic-scrollbar-thumb-color: #5f5f5f;
+  --ytmusic-scrollbar-track-color: #1e1e1e;
+}
+
+/* Example of how scrollbars could be styled if not using variables */
+/* This might be handled by other CSS, but good to have a placeholder */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ytmusic-scrollbar-track-color, #1e1e1e);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ytmusic-scrollbar-thumb-color, #5f5f5f);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7a7a7a; /* Slightly lighter on hover */
+}
+
+/* Ensure body background is set, though --yt-spec-base-background on :root should cover it */
+body {
+  background-color: var(--yt-spec-base-background, #121212);
+  color: var(--yt-spec-text-primary, #ffffff);
+}

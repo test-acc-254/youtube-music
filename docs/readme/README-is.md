@@ -86,6 +86,8 @@ Lestu þetta á öðrum tungumálum: [🏴 Ensku](../../README.md), [🇰🇷 K�
 
 - **Krossfæra**: Krossfæra á milli lög
 
+- **Dökkt þema**: Virkjar algjört dökkt þema fyrir viðmót forritsins. Slökkar sjálfkrafa á litaþemu albums þegar það er virkt til að koma í veg fyrir árekstra
+
 - **Slökkva á Sjálfvirkri Spilun**: Gerir lag að byrja í "hlé" ham
 
 - **[Discord](https://discord.com/) Rík Nærveru**: Sýndu vinum þínum hvað þú hlustar á

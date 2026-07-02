@@ -70,7 +70,7 @@ Read this in other languages: [🇰🇷](./docs/readme/README-ko.md), [🇫🇷]
 
 - **Album Actions**: Adds Undislike, Dislike, Like, and Unlike buttons to apply this to all songs in a playlist or album
 
-- **Album Color Theme**: Applies a dynamic theme and visual effects based on the album color palette
+- **Album Color Theme**: Applies a dynamic theme and visual effects based on the album color palette (automatically disabled when Dark Mode is active)
 
 - **Ambient Mode**: Applies a lighting effect by casting gentle colors from the video, into your screen’s background
 
@@ -86,6 +86,8 @@ Read this in other languages: [🇰🇷](./docs/readme/README-ko.md), [🇫🇷]
 - **Compact Sidebar**: Always set the sidebar in compact mode
 
 - **Crossfade**: Crossfade between songs
+
+- **Dark Mode**: Enables a comprehensive dark theme for the application interface. Automatically disables Album Color Theme when enabled to prevent conflicts
 
 - **Disable Autoplay**: Makes every song start in "paused" mode
 
@@ -233,6 +235,19 @@ winget install th-ch.YouTubeMusic
 You can load CSS files to change the look of the application (Options > Visual Tweaks > Themes).
 
 Some predefined themes are available in https://github.com/kerichdev/themes-for-ytmdesktop-player.
+
+### Dark Mode
+
+The **Dark Mode** plugin (Options > Plugins > Dark Mode) enables a comprehensive dark theme for the application
+interface by injecting a dedicated stylesheet (`src/plugins/dark-mode/dark-theme.css`) at runtime. The theme covers
+backgrounds, text, icons, borders, accent colors, overlays, and scrollbars across navigation, the player bar, dialogs,
+menus, and other UI components for a consistent dark appearance.
+
+- **Enabling:** Toggle the plugin on from the plugin settings; the dark styles are applied immediately without a restart.
+- **Disabling:** Toggle the plugin off to remove the dark styles and resume normal theming.
+- **Mutual exclusion with Album Color Theme:** Only one theme can be active at a time. When Dark Mode is enabled, the
+  Album Color Theme plugin is automatically disabled (and its CSS variables cleaned up) to prevent visual clashes.
+  Likewise, the Album Color Theme plugin checks whether Dark Mode is active and skips itself if so.
 
 ## Dev
 
