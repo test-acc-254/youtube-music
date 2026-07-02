@@ -831,7 +831,7 @@
     },
     "dark-mode": {
       "name": "Dark Mode",
-      "description": "Enables a dark theme for the application."
+      "description": "Enables a comprehensive dark theme for the application interface. Automatically disables Album Color Theme when enabled to prevent conflicts."
     },
     "equalizer": {
       "description": "Adds an equalizer to the player",
