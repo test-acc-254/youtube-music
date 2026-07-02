@@ -829,6 +829,10 @@
       },
       "name": "Visualizer"
     },
+    "dark-mode": {
+      "name": "Dark Mode",
+      "description": "Enables a dark theme for the application."
+    },
     "equalizer": {
       "description": "Adds an equalizer to the player",
       "name": "Equalizer",
