@@ -412,6 +412,10 @@ Uses [Playwright](https://playwright.dev/) to test the app.
 
 MIT © [th-ch](https://github.com/th-ch/youtube-music)
 
+## RepoBird validation note
+
+The Dark Mode plugin can be enabled from the plugin settings (Options > Plugins > Dark Mode). It is mutually exclusive with the Album Color Theme plugin — only one can be active at a time.
+
 ## FAQ
 
 ### Why apps menu isn't showing up?
